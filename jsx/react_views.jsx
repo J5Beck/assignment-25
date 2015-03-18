@@ -12,38 +12,48 @@
 $(function(){
 
   var SearchBar = React.createClass({
-    // getIntialState: function() {
-    //   return {keywords: ""};
-    // },
-    // onSubmit: function(e) {
-    //   e.preventDefault();
-    //   this.props.
-    // },
+    
+    getInitialState: function() {
+      return {keywords:""};
+    },
+    
+    onChange: function(e) {
+      this.setState({keywords: e.target.value});
+    },
+
+    onSubmit: function(e){
+      e.preventDefault();
+      this.props.setInputValue(this.state.keywords);
+    },
 
 
-    render: function(){
-      return (
-        <div>
-          <input type="text" className="searchText"/>
-          <input type="submit" className="submitSearch"/>
-        </div>
-
-      );
+    render: function() {
+      
+      return(
+        <form onSubmit={this.onSubmit}>
+          <input type="text" value={this.state.keywords} onChange={this.onChange} />
+          <input type="submit" />
+        </form>
+        );
     }
 
   });
 
   var SearchBox = React.createClass({
+
+    consoleLogKeywords: function(keywords){
+      console.log("Search:", keywords);
+    },
     
     render: function(){
-      return(
-        <div className="box">
-          <div>{this.props.children}</div>
-        </div>
-      );
+      
+      return <SearchBar setInputValue={this.consoleLogKeywords} />
     }
-
+  
   });
+
+  React.render(<SearchBox setInputValue={this.consoleLogKeywords}  />, document.body);
+
 });
 // var onSubmit = function(e) {
 
